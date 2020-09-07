@@ -5,8 +5,12 @@ namespace Actor
 {
     public class RotationController : MonoBehaviour
     {
-        [Range(0, 10)] public float rotationSpeed;
-        public float RotateAmount{set => _desiredAngularVelocity = value}
+        [Range(0, 500)] public float rotationSpeed = 200;
+        [Range(0, 500)] public float rotationAcceleration = 200;
+        public float RotateAmount
+        {
+            set => _desiredAngularVelocity = value * rotationSpeed;
+        }
 
         private float _desiredAngularVelocity;
 
@@ -20,7 +24,12 @@ namespace Actor
         private void FixedUpdate()
         {
             float angularVelocity = _body.angularVelocity;
-            angularVelocity = Mathf.MoveTowards(angularVelocity, )
+            float maxVelocityChange = rotationAcceleration * Time.deltaTime;
+            
+            angularVelocity = 
+                Mathf.MoveTowards(angularVelocity, _desiredAngularVelocity, maxVelocityChange);
+            
+            _body.angularVelocity = angularVelocity;
         }
     }
 }

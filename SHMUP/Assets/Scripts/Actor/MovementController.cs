@@ -8,21 +8,20 @@ namespace Actor
         [Range(0, 20)] public float maxSpeed = 10;
         [Range(0, 20)] public float moveAcceleration = 10;
         [Range(0, 20)] public float brakeAcceleration = 10;
-        public Vector2 MoveVector
-        {
-            set => _desiredVelocity = value * maxSpeed;
-        }
+
+        public bool isDirectionDependent;
 
         [NonSerialized] public bool IsBrake;
 
-        private Vector2 _moveVector;
-        private Vector2 _desiredVelocity;
-        
         private Rigidbody2D _body;
+        private Transform _transform;
+
+        [NonSerialized] public Vector2 MoveVector;
 
         private void Awake()
         {
             _body = GetComponent<Rigidbody2D>();
+            _transform = GetComponent<Transform>();
         }
 
         private void FixedUpdate()
@@ -35,11 +34,16 @@ namespace Actor
 
         private void Move(ref Vector2 velocity)
         {
-            if(_desiredVelocity == Vector2.zero)
+            //TODO: Velocity buildup if braking.
+            if(MoveVector == Vector2.zero)
                 return;
 
-            float maxSpeedChange = moveAcceleration * Time.deltaTime;
-            velocity = Vector2.MoveTowards(velocity, _desiredVelocity, maxSpeedChange);
+            Vector2 desiredVelocity = MoveVector * maxSpeed;
+            if (isDirectionDependent)
+                desiredVelocity = _transform.TransformDirection(desiredVelocity);
+            
+            float maxVelocityChange = moveAcceleration * Time.deltaTime;
+            velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxVelocityChange);
         }
 
         private void Brake(ref Vector2 velocity)

@@ -7,8 +7,10 @@ public class CameraMover : MonoBehaviour
     public Transform target;
 
     private Vector2 _velocity;
-    
+
     private Transform _transform;
+
+    [NonSerialized] public Vector2 Offset;
 
     private void Awake()
     {
@@ -17,6 +19,10 @@ public class CameraMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _transform.position = Vector2.SmoothDamp(transform.position, target.position, ref _velocity, smoothTime);
+        _transform.position = Vector2.SmoothDamp(
+            transform.position, 
+            (Vector2)target.position + Offset, 
+            ref _velocity, 
+            smoothTime);
     }
 }

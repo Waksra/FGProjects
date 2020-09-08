@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Input;
 using UnityEngine.InputSystem;
 
@@ -10,12 +9,14 @@ namespace Actor
         private GameControls _controls;
         private MovementController _movementController;
         private RotationController _rotationController;
+        private CameraController _cameraController;
 
         private void Awake()
         {
             _controls = new GameControls();
             _movementController = GetComponent<MovementController>();
             _rotationController = GetComponent<RotationController>();
+            _cameraController = Camera.main.GetComponent<CameraController>();
         }
 
         private void OnEnable()
@@ -26,6 +27,8 @@ namespace Actor
             _controls.Play.Rotate.canceled += OnRotateCanceled;
             _controls.Play.Brake.performed += OnBrakePerformed;
             _controls.Play.Brake.canceled += OnBrakeCanceled;
+            _controls.Play.Aim.performed += OnAimPerformed;
+            _controls.Play.Aim.canceled += OnAimCanceled;
             _controls.Enable();
         }
 
@@ -37,6 +40,8 @@ namespace Actor
             _controls.Play.Rotate.canceled -= OnRotateCanceled;
             _controls.Play.Brake.performed -= OnBrakePerformed;
             _controls.Play.Brake.canceled -= OnBrakeCanceled;
+            _controls.Play.Aim.performed -= OnAimPerformed;
+            _controls.Play.Aim.canceled -= OnAimCanceled;
             _controls.Disable();
         }
 
@@ -59,14 +64,25 @@ namespace Actor
         {
             _rotationController.RotateAmount = 0;
         }
+
         private void OnBrakePerformed(InputAction.CallbackContext context)
         {
             _movementController.IsBrake = true;
         }
-        
+
         private void OnBrakeCanceled(InputAction.CallbackContext context)
         {
             _movementController.IsBrake = false;
         }
-    }
+
+        private void OnAimPerformed(InputAction.CallbackContext context)
+        {
+            _cameraController.CursorScreenPosition = context.ReadValue<Vector2>();
+        }
+
+        private void OnAimCanceled(InputAction.CallbackContext context)
+        {
+            _cameraController.CursorScreenPosition = context.ReadValue<Vector2>();
+        }
+}
 }

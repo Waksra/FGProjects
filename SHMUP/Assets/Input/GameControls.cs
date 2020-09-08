@@ -43,6 +43,14 @@ namespace Input
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""931f61e5-e125-470c-bf02-a37bc8b3c8b4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -122,6 +130,17 @@ namespace Input
                     ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b58c1c8-e709-48d3-82a0-e3c387982775"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -133,6 +152,7 @@ namespace Input
             m_Play_Move = m_Play.FindAction("Move", throwIfNotFound: true);
             m_Play_Rotate = m_Play.FindAction("Rotate", throwIfNotFound: true);
             m_Play_Brake = m_Play.FindAction("Brake", throwIfNotFound: true);
+            m_Play_Aim = m_Play.FindAction("Aim", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -185,6 +205,7 @@ namespace Input
         private readonly InputAction m_Play_Move;
         private readonly InputAction m_Play_Rotate;
         private readonly InputAction m_Play_Brake;
+        private readonly InputAction m_Play_Aim;
         public struct PlayActions
         {
             private @GameControls m_Wrapper;
@@ -192,6 +213,7 @@ namespace Input
             public InputAction @Move => m_Wrapper.m_Play_Move;
             public InputAction @Rotate => m_Wrapper.m_Play_Rotate;
             public InputAction @Brake => m_Wrapper.m_Play_Brake;
+            public InputAction @Aim => m_Wrapper.m_Play_Aim;
             public InputActionMap Get() { return m_Wrapper.m_Play; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -210,6 +232,9 @@ namespace Input
                     @Brake.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnBrake;
                     @Brake.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnBrake;
                     @Brake.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnBrake;
+                    @Aim.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnAim;
+                    @Aim.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnAim;
+                    @Aim.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnAim;
                 }
                 m_Wrapper.m_PlayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -223,6 +248,9 @@ namespace Input
                     @Brake.started += instance.OnBrake;
                     @Brake.performed += instance.OnBrake;
                     @Brake.canceled += instance.OnBrake;
+                    @Aim.started += instance.OnAim;
+                    @Aim.performed += instance.OnAim;
+                    @Aim.canceled += instance.OnAim;
                 }
             }
         }
@@ -232,6 +260,7 @@ namespace Input
             void OnMove(InputAction.CallbackContext context);
             void OnRotate(InputAction.CallbackContext context);
             void OnBrake(InputAction.CallbackContext context);
+            void OnAim(InputAction.CallbackContext context);
         }
     }
 }

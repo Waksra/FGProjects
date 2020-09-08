@@ -408,6 +408,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c01f55e1e239da44f87c2302c8efd016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxOffset: 3
+  maxOffsetDistance: 0.25
+  cursor: {fileID: 2800000, guid: 994cdb61ad0cc7446bb3ed7f58da85c9, type: 3}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
@@ -965,7 +968,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55bb7fb5da1d5a24bafd99da47cb564b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smoothTime: 0.2
+  smoothTime: 0.15
   target: {fileID: 809807751}
 --- !u!1 &1653494132
 GameObject:

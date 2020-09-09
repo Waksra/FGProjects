@@ -28,7 +28,10 @@ private void Awake()
         _mover = GetComponentInParent<CameraMover>();
         
         Cursor.lockState = CursorLockMode.Confined;
-        Cursor.SetCursor(cursor, new Vector2(cursor.width / 2, cursor.height / 2), CursorMode.Auto);
+        Cursor.SetCursor(
+            cursor, 
+            new Vector2(Mathf.RoundToInt(cursor.width / 2f), Mathf.RoundToInt(cursor.height / 2f)), 
+            CursorMode.Auto);
     }
 
     private void Update()

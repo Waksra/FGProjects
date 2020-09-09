@@ -10,6 +10,7 @@ namespace Actor
         private MovementController _movementController;
         private RotationController _rotationController;
         private CameraController _cameraController;
+        private PlayerAbilityManager _abilityManager;
 
         private void Awake()
         {
@@ -17,31 +18,40 @@ namespace Actor
             _movementController = GetComponent<MovementController>();
             _rotationController = GetComponent<RotationController>();
             _cameraController = Camera.main.GetComponent<CameraController>();
+            _abilityManager = GetComponent<PlayerAbilityManager>();
         }
 
         private void OnEnable()
         {
             _controls.Play.Move.performed += OnMovePerformed;
-            _controls.Play.Move.canceled += OnMoveCanceled;
+            
             _controls.Play.Rotate.performed += OnRotatePerformed;
-            _controls.Play.Rotate.canceled += OnRotateCanceled;
+            
             _controls.Play.Brake.performed += OnBrakePerformed;
             _controls.Play.Brake.canceled += OnBrakeCanceled;
+            
             _controls.Play.Aim.performed += OnAimPerformed;
-            _controls.Play.Aim.canceled += OnAimCanceled;
+
+            _controls.Play.Fire.performed += OnFirePerformed;
+            _controls.Play.Fire.canceled += OnFireCanceled;
+            
             _controls.Enable();
         }
 
         private void OnDisable()
         {
             _controls.Play.Move.performed -= OnMovePerformed;
-            _controls.Play.Move.canceled -= OnMoveCanceled;
+            
             _controls.Play.Rotate.performed -= OnRotatePerformed;
-            _controls.Play.Rotate.canceled -= OnRotateCanceled;
+            
             _controls.Play.Brake.performed -= OnBrakePerformed;
             _controls.Play.Brake.canceled -= OnBrakeCanceled;
+            
             _controls.Play.Aim.performed -= OnAimPerformed;
-            _controls.Play.Aim.canceled -= OnAimCanceled;
+
+            _controls.Play.Fire.performed -= OnFirePerformed;
+            _controls.Play.Fire.canceled -= OnFireCanceled;
+            
             _controls.Disable();
         }
 
@@ -50,19 +60,9 @@ namespace Actor
             _movementController.MoveVector = new Vector2(0, context.ReadValue<float>());
         }
 
-        private void OnMoveCanceled(InputAction.CallbackContext context)
-        {
-            _movementController.MoveVector = Vector2.zero;
-        }
-
         private void OnRotatePerformed(InputAction.CallbackContext context)
         {
             _rotationController.RotateAmount = context.ReadValue<float>();
-        }
-
-        private void OnRotateCanceled(InputAction.CallbackContext context)
-        {
-            _rotationController.RotateAmount = 0;
         }
 
         private void OnBrakePerformed(InputAction.CallbackContext context)
@@ -80,9 +80,14 @@ namespace Actor
             _cameraController.CursorScreenPosition = context.ReadValue<Vector2>();
         }
 
-        private void OnAimCanceled(InputAction.CallbackContext context)
+        private void OnFirePerformed(InputAction.CallbackContext context)
         {
-            _cameraController.CursorScreenPosition = context.ReadValue<Vector2>();
+            _abilityManager.StartFireWeapon();
         }
-}
+
+        private void OnFireCanceled(InputAction.CallbackContext context)
+        {
+            _abilityManager.StopFireWeapon();
+        }
+    }
 }

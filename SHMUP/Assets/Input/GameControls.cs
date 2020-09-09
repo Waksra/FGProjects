@@ -22,7 +22,7 @@ namespace Input
             ""actions"": [
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a072eacc-746f-42b2-abbb-dd456b8db7fb"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
@@ -30,7 +30,7 @@ namespace Input
                 },
                 {
                     ""name"": ""Rotate"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""e91e7827-e6ca-4e64-b6e3-238361503cfe"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
@@ -46,9 +46,41 @@ namespace Input
                 },
                 {
                     ""name"": ""Aim"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""931f61e5-e125-470c-bf02-a37bc8b3c8b4"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fire"",
+                    ""type"": ""Button"",
+                    ""id"": ""5cafbf1c-3751-443b-b6e1-4ffe80fef302"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwapWeapon"",
+                    ""type"": ""Value"",
+                    ""id"": ""1e2ea693-193e-4dcc-acc3-bb750a5a1008"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Shield"",
+                    ""type"": ""Button"",
+                    ""id"": ""f06aa186-17a1-4876-82b2-c1a45a16b7b1"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Hook"",
+                    ""type"": ""Button"",
+                    ""id"": ""00a71bf6-0d7b-4abe-8810-89b7dc8a8d5a"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -57,7 +89,7 @@ namespace Input
                 {
                     ""name"": """",
                     ""id"": ""ce2a1213-3343-4951-b18a-a3ab6ff62d6c"",
-                    ""path"": ""<Keyboard>/space"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -141,6 +173,50 @@ namespace Input
                     ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a21c82de-d078-42b5-b2e0-d3a68b4003f6"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fire"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3f02edd9-2108-4bc7-976b-70441285847e"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""578b2718-c0e3-40fb-abf2-84bc6bb22585"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shield"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7a05d0f2-cdf7-47f7-8701-e444c35269a4"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Hook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -153,6 +229,10 @@ namespace Input
             m_Play_Rotate = m_Play.FindAction("Rotate", throwIfNotFound: true);
             m_Play_Brake = m_Play.FindAction("Brake", throwIfNotFound: true);
             m_Play_Aim = m_Play.FindAction("Aim", throwIfNotFound: true);
+            m_Play_Fire = m_Play.FindAction("Fire", throwIfNotFound: true);
+            m_Play_SwapWeapon = m_Play.FindAction("SwapWeapon", throwIfNotFound: true);
+            m_Play_Shield = m_Play.FindAction("Shield", throwIfNotFound: true);
+            m_Play_Hook = m_Play.FindAction("Hook", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -206,6 +286,10 @@ namespace Input
         private readonly InputAction m_Play_Rotate;
         private readonly InputAction m_Play_Brake;
         private readonly InputAction m_Play_Aim;
+        private readonly InputAction m_Play_Fire;
+        private readonly InputAction m_Play_SwapWeapon;
+        private readonly InputAction m_Play_Shield;
+        private readonly InputAction m_Play_Hook;
         public struct PlayActions
         {
             private @GameControls m_Wrapper;
@@ -214,6 +298,10 @@ namespace Input
             public InputAction @Rotate => m_Wrapper.m_Play_Rotate;
             public InputAction @Brake => m_Wrapper.m_Play_Brake;
             public InputAction @Aim => m_Wrapper.m_Play_Aim;
+            public InputAction @Fire => m_Wrapper.m_Play_Fire;
+            public InputAction @SwapWeapon => m_Wrapper.m_Play_SwapWeapon;
+            public InputAction @Shield => m_Wrapper.m_Play_Shield;
+            public InputAction @Hook => m_Wrapper.m_Play_Hook;
             public InputActionMap Get() { return m_Wrapper.m_Play; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -235,6 +323,18 @@ namespace Input
                     @Aim.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnAim;
                     @Aim.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnAim;
                     @Aim.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnAim;
+                    @Fire.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnFire;
+                    @Fire.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnFire;
+                    @Fire.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnFire;
+                    @SwapWeapon.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnSwapWeapon;
+                    @SwapWeapon.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnSwapWeapon;
+                    @SwapWeapon.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnSwapWeapon;
+                    @Shield.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnShield;
+                    @Shield.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnShield;
+                    @Shield.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnShield;
+                    @Hook.started -= m_Wrapper.m_PlayActionsCallbackInterface.OnHook;
+                    @Hook.performed -= m_Wrapper.m_PlayActionsCallbackInterface.OnHook;
+                    @Hook.canceled -= m_Wrapper.m_PlayActionsCallbackInterface.OnHook;
                 }
                 m_Wrapper.m_PlayActionsCallbackInterface = instance;
                 if (instance != null)
@@ -251,6 +351,18 @@ namespace Input
                     @Aim.started += instance.OnAim;
                     @Aim.performed += instance.OnAim;
                     @Aim.canceled += instance.OnAim;
+                    @Fire.started += instance.OnFire;
+                    @Fire.performed += instance.OnFire;
+                    @Fire.canceled += instance.OnFire;
+                    @SwapWeapon.started += instance.OnSwapWeapon;
+                    @SwapWeapon.performed += instance.OnSwapWeapon;
+                    @SwapWeapon.canceled += instance.OnSwapWeapon;
+                    @Shield.started += instance.OnShield;
+                    @Shield.performed += instance.OnShield;
+                    @Shield.canceled += instance.OnShield;
+                    @Hook.started += instance.OnHook;
+                    @Hook.performed += instance.OnHook;
+                    @Hook.canceled += instance.OnHook;
                 }
             }
         }
@@ -261,6 +373,10 @@ namespace Input
             void OnRotate(InputAction.CallbackContext context);
             void OnBrake(InputAction.CallbackContext context);
             void OnAim(InputAction.CallbackContext context);
+            void OnFire(InputAction.CallbackContext context);
+            void OnSwapWeapon(InputAction.CallbackContext context);
+            void OnShield(InputAction.CallbackContext context);
+            void OnHook(InputAction.CallbackContext context);
         }
     }
 }

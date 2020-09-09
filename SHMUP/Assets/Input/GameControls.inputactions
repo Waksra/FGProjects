@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "a072eacc-746f-42b2-abbb-dd456b8db7fb",
                     "expectedControlType": "Axis",
                     "processors": "",
@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "Rotate",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "e91e7827-e6ca-4e64-b6e3-238361503cfe",
                     "expectedControlType": "Axis",
                     "processors": "",
@@ -31,9 +31,41 @@
                 },
                 {
                     "name": "Aim",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "931f61e5-e125-470c-bf02-a37bc8b3c8b4",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "5cafbf1c-3751-443b-b6e1-4ffe80fef302",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SwapWeapon",
+                    "type": "Value",
+                    "id": "1e2ea693-193e-4dcc-acc3-bb750a5a1008",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Shield",
+                    "type": "Button",
+                    "id": "f06aa186-17a1-4876-82b2-c1a45a16b7b1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Hook",
+                    "type": "Button",
+                    "id": "00a71bf6-0d7b-4abe-8810-89b7dc8a8d5a",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -42,7 +74,7 @@
                 {
                     "name": "",
                     "id": "ce2a1213-3343-4951-b18a-a3ab6ff62d6c",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -124,6 +156,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a21c82de-d078-42b5-b2e0-d3a68b4003f6",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3f02edd9-2108-4bc7-976b-70441285847e",
+                    "path": "<Mouse>/scroll/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwapWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "578b2718-c0e3-40fb-abf2-84bc6bb22585",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shield",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7a05d0f2-cdf7-47f7-8701-e444c35269a4",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Hook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

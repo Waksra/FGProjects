@@ -1,4 +1,5 @@
-﻿using Abilities;
+﻿
+using Abilities;
 using UnityEngine;
 
 namespace Actor
@@ -6,8 +7,13 @@ namespace Actor
     public class PlayerAbilityManager : MonoBehaviour
     {
         public AbilitiesSlot weapons;
-        public IAbility shield;
-        public IAbility hook;
+        public AbilitiesSlot shield;
+        public AbilitiesSlot hook;
+
+        private void Awake()
+        {
+            weapons.Initialize(gameObject);
+        }
 
         public void StartFireWeapon()
         {
@@ -28,5 +34,30 @@ namespace Actor
         {
             weapons.PreviousAbility();
         }
-    }
+
+        public void EquipWeapon(IAbility weapon)
+        {
+            weapons.AddAbility(weapon, gameObject);
+        }
+
+        public void StartShield()
+        {
+            shield.Activate();
+        }
+
+        public void StopShield()
+        {
+            shield.Deactivate();
+        }
+
+        public void StartHook()
+        {
+            hook.Activate();
+        }
+
+        public void StopHook()
+        {
+            hook.Deactivate();
+        }
+}
 }

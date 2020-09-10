@@ -9,6 +9,6 @@ namespace Abilities
 
         void Deactivate();
 
-        void Equip(Transform slot);
+        void Equip(Transform slot, GameObject owner);
     }
 }

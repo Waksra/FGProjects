@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using Abilities.Projectile;
 using UnityEngine;
 
 namespace Abilities.Weapons
@@ -6,9 +7,13 @@ namespace Abilities.Weapons
     public class GatlingGun : MonoBehaviour, IAbility
     {
         public float roundsPerMinute = 100f;
-        public GameObject projectile;
+        public ProjectileMover projectile;
 
         private Transform _transform;
+
+        private delegate Vector2 OwnerVelocity();
+
+        private OwnerVelocity _getOwnerVelocity;
 
         private void Awake()
         {
@@ -17,7 +22,7 @@ namespace Abilities.Weapons
 
         public void Activate()
         {
-            Instantiate(projectile, _transform.position, _transform.rotation);
+            
         }
 
         public void Deactivate()
@@ -25,9 +30,14 @@ namespace Abilities.Weapons
             
         }
 
-        public void Equip(Transform slot)
+        public void Equip(Transform slot, GameObject owner)
         {
             _transform.parent = slot;
+            if (true)
+            {
+                Rigidbody2D rb = owner.GetComponent<Rigidbody2D>();
+                _getOwnerVelocity = () => rb.velocity;
+            }
         }
     }
 }

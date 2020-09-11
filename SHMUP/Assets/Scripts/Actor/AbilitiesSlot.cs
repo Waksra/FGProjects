@@ -67,6 +67,7 @@ namespace Actor
             if(maxAbilityCount <= 1)
                 return;
             
+            _abilities[_currentAbility].Deactivate();
             _currentAbility++;
             if (_currentAbility > _currentAbilityCount - 1)
                 _currentAbility = 0;
@@ -77,6 +78,7 @@ namespace Actor
             if(maxAbilityCount <= 1)
                 return;
             
+            _abilities[_currentAbility].Deactivate();
             _currentAbility--;
             if (_currentAbility < 0)
                 _currentAbility = _currentAbilityCount - 1;

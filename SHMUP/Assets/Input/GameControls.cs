@@ -64,7 +64,7 @@ namespace Input
                     ""name"": ""SwapWeapon"",
                     ""type"": ""Value"",
                     ""id"": ""1e2ea693-193e-4dcc-acc3-bb750a5a1008"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },

@@ -1,28 +1,38 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ObjectPooler
 {
-        public abstract class ObjectPooler : MonoBehaviour
+        public abstract class ObjectPooler : ScriptableObject
         {
-                private Transform _transform;
+                protected Transform pool;
+                private bool _hasPool;
         
-                private static Transform poolParent;
+                protected static Transform poolParent;
+                private bool _hasPoolParent;
 
-                public event Action OnDestroyEvent;
-
-                private void Awake()
+                public virtual void Initialize()
                 {
-                        if (poolParent == null)
-                                poolParent = new GameObject("Object Pools").transform;
+                        if(_hasPool)
+                                return;
 
-                        _transform = transform;
-                        _transform.parent = poolParent;
+                        if (!_hasPoolParent)
+                        {
+                                GameObject parentObj = new GameObject("Object Pools");
+                                poolParent = parentObj.transform;
+                                _hasPoolParent = true;
+                                parentObj.AddComponent<OnDestroyCallback>().OnDestroyEvent +=
+                                        () => _hasPoolParent = false;
+                        }
+
+                        GameObject obj = new GameObject($"{name} Pool");
+                        pool = obj.transform;
+                        pool.parent = poolParent;
+                        _hasPool = true;
+                        obj.AddComponent<OnDestroyCallback>().OnDestroyEvent += 
+                                () => _hasPool = false;
+                        Setup();
                 }
 
-                private void OnDestroy()
-                {
-                        OnDestroyEvent?.Invoke();
-                }
+                protected abstract void Setup();
         }
 }

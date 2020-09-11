@@ -24,34 +24,38 @@ namespace Actor
         private void OnEnable()
         {
             _controls.Play.Move.performed += OnMovePerformed;
-            
+
             _controls.Play.Rotate.performed += OnRotatePerformed;
-            
+
             _controls.Play.Brake.performed += OnBrakePerformed;
             _controls.Play.Brake.canceled += OnBrakeCanceled;
-            
+
             _controls.Play.Aim.performed += OnAimPerformed;
 
             _controls.Play.Fire.performed += OnFirePerformed;
             _controls.Play.Fire.canceled += OnFireCanceled;
-            
+
+            _controls.Play.SwapWeapon.performed += OnSwapWeaponPerformed;
+
             _controls.Enable();
         }
 
         private void OnDisable()
         {
             _controls.Play.Move.performed -= OnMovePerformed;
-            
+
             _controls.Play.Rotate.performed -= OnRotatePerformed;
-            
+
             _controls.Play.Brake.performed -= OnBrakePerformed;
             _controls.Play.Brake.canceled -= OnBrakeCanceled;
-            
+
             _controls.Play.Aim.performed -= OnAimPerformed;
 
             _controls.Play.Fire.performed -= OnFirePerformed;
             _controls.Play.Fire.canceled -= OnFireCanceled;
-            
+
+            _controls.Play.SwapWeapon.performed -= OnSwapWeaponPerformed;
+
             _controls.Disable();
         }
 
@@ -88,6 +92,16 @@ namespace Actor
         private void OnFireCanceled(InputAction.CallbackContext context)
         {
             _abilityManager.StopFireWeapon();
+        }
+
+        private void OnSwapWeaponPerformed(InputAction.CallbackContext context)
+        {
+            Debug.Log(context.ReadValue<float>());
+            if(context.ReadValue<float>() > 0)
+                _abilityManager.NextWeapon();
+            else
+                _abilityManager.PreviousWeapon();
+            
         }
     }
 }

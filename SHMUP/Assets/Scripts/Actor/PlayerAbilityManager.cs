@@ -10,7 +10,7 @@ namespace Actor
         public AbilitiesSlot shield;
         public AbilitiesSlot hook;
 
-        private void Awake()
+        private void Start()
         {
             weapons.Initialize(gameObject);
         }

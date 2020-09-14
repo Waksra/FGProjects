@@ -61,7 +61,7 @@ namespace Actor
 
         private void OnMovePerformed(InputAction.CallbackContext context)
         {
-            _movementController.MoveVector = new Vector2(0, context.ReadValue<float>());
+            _movementController.moveVector = context.ReadValue<Vector2>();
         }
 
         private void OnRotatePerformed(InputAction.CallbackContext context)
@@ -71,12 +71,12 @@ namespace Actor
 
         private void OnBrakePerformed(InputAction.CallbackContext context)
         {
-            _movementController.IsBrake = true;
+            _movementController.isBrake = true;
         }
 
         private void OnBrakeCanceled(InputAction.CallbackContext context)
         {
-            _movementController.IsBrake = false;
+            _movementController.isBrake = false;
         }
 
         private void OnAimPerformed(InputAction.CallbackContext context)

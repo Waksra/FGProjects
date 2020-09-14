@@ -6,11 +6,10 @@ namespace Abilities.Weapons
     [RequireComponent(typeof(LineRenderer))]
     public class Laser : MonoBehaviour, IAbility
     {
-        public float laserLength;
-        public float laserWidth;
+        public float laserLength = 4;
+        public float laserHitWidth = 0.3f;
         public float initialFiringDelay;
-
-        public Color laserColor;
+        public int lineResolution = 4;
 
         public LayerMask layerMask;
         
@@ -18,16 +17,14 @@ namespace Abilities.Weapons
         
         private Transform _transform;
         private LineRenderer _lineRenderer;
+        private ParticleSystem _particleSystem;
 
         private void Awake()
         {
             _transform = transform;
             
             _lineRenderer = GetComponent<LineRenderer>();
-            _lineRenderer.startWidth = laserWidth;
-            _lineRenderer.endWidth = laserWidth;
-            _lineRenderer.startColor = laserColor;
-            _lineRenderer.endColor = laserColor;
+            _particleSystem = GetComponentInChildren<ParticleSystem>();
         }
 
         public void Activate()
@@ -36,6 +33,7 @@ namespace Abilities.Weapons
                 return;
 
             _isFiring = true;
+            _particleSystem.Play(true);
             StartCoroutine(FiringCoroutine());
         }
 
@@ -44,6 +42,7 @@ namespace Abilities.Weapons
             _isFiring = false;
             StopAllCoroutines();
             _lineRenderer.positionCount = 0;
+            _particleSystem.Stop(true);
         }
 
         public void Equip(Transform slot, GameObject owner)
@@ -55,21 +54,46 @@ namespace Abilities.Weapons
         private IEnumerator FiringCoroutine()
         {
             yield return new WaitForSeconds(initialFiringDelay);
-
-            _lineRenderer.positionCount = 2;
+            
+            _lineRenderer.positionCount = lineResolution;
+            Transform particleTransform = _particleSystem.transform;
+            
             while (_isFiring)
             {
-                RaycastHit2D hit = Physics2D.CircleCast(transform.position, laserWidth, 
+                RaycastHit2D hit = Physics2D.CircleCast(transform.position, laserHitWidth, 
                     _transform.up, laserLength, layerMask);
-                _lineRenderer.SetPosition(0, _transform.position);
-                Vector3 point2;
-                if(hit)
-                    point2 = (hit.distance * _transform.up) + _transform.position;
-                else
-                    point2 = (laserLength * _transform.up) + _transform.position;
                 
-                _lineRenderer.SetPosition(1, point2);
+                Vector3 endPoint;
+                if (hit)
+                {
+                    endPoint = hit.point;
+                    particleTransform.position = endPoint;
+                    if(!_particleSystem.isPlaying) _particleSystem.Play(true);
+                }
+                else
+                {
+                    endPoint = (laserLength * _transform.up) + _transform.position;
+                    if (_particleSystem.isPlaying)
+                    {
+                        _particleSystem.Stop(true);
+                        _particleSystem.Clear(false);
+                    }
+                }
+                SetLinePositions(endPoint);
                 yield return null;
+            }
+        }
+
+        private void SetLinePositions(Vector3 endPoint)
+        {
+            for (int i = 0; i < _lineRenderer.positionCount; i++)
+            {
+                Vector3 position = Vector3.Lerp(
+                    transform.position, 
+                    endPoint, 
+                    (float)i / (_lineRenderer.positionCount - 1));
+                
+                _lineRenderer.SetPosition(i, position);
             }
         }
     }

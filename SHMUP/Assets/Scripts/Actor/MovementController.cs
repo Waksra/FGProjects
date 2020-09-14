@@ -5,18 +5,20 @@ namespace Actor
 {
     public class MovementController : MonoBehaviour
     {
-        [Range(0, 20)] public float maxSpeed = 10;
-        [Range(0, 20)] public float moveAcceleration = 10;
-        [Range(0, 20)] public float brakeAcceleration = 10;
+        [Range(0, 20)] public float maxSpeedX = 5;
+        [Range(0, 20)] public float  moveAccelerationX = 5;
+        [Range(0, 20)] public float maxSpeedY = 15;
+        [Range(0, 20)] public float moveAccelerationY = 8;
+        [Range(0, 20)] public float brakeAcceleration = 4;
 
         public bool isDirectionDependent;
 
-        [NonSerialized] public bool IsBrake;
+        [NonSerialized] public bool isBrake;
 
         private Rigidbody2D _body;
         private Transform _transform;
 
-        [NonSerialized] public Vector2 MoveVector;
+        [NonSerialized] public Vector2 moveVector;
 
         private void Awake()
         {
@@ -35,20 +37,29 @@ namespace Actor
         private void Move(ref Vector2 velocity)
         {
             //TODO: Velocity buildup if braking.
-            if(MoveVector == Vector2.zero)
+            if(moveVector == Vector2.zero)
                 return;
 
-            Vector2 desiredVelocity = MoveVector * maxSpeed;
             if (isDirectionDependent)
-                desiredVelocity = _transform.TransformDirection(desiredVelocity);
+                velocity = _transform.InverseTransformDirection(velocity);
             
-            float maxVelocityChange = moveAcceleration * Time.deltaTime;
-            velocity = Vector2.MoveTowards(velocity, desiredVelocity, maxVelocityChange);
+            Vector2 desiredVelocity;
+            desiredVelocity.x = (moveVector.x != 0) ? moveVector.x * maxSpeedX : velocity.x;
+            desiredVelocity.y = (moveVector.y != 0) ? moveVector.y * maxSpeedY : velocity.y;
+
+            float maxVelocityChangeX = moveAccelerationX * Time.deltaTime;
+            float maxVelocityChangeY = moveAccelerationY * Time.deltaTime;
+            
+            velocity.x = Mathf.MoveTowards(velocity.x, desiredVelocity.x, maxVelocityChangeX);
+            velocity.y = Mathf.MoveTowards(velocity.y, desiredVelocity.y, maxVelocityChangeY);
+
+            if (isDirectionDependent)
+                velocity = _transform.TransformDirection(velocity);
         }
 
         private void Brake(ref Vector2 velocity)
         {
-            if(!IsBrake || velocity == Vector2.zero)
+            if(!isBrake || velocity == Vector2.zero)
                 return;
             
             float maxSpeedChange = brakeAcceleration * Time.deltaTime;

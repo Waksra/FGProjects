@@ -1401,7 +1401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 542025cc28623d040b398c1e1564afad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxAmount: 5
+  parallaxAmount: 0.1
 --- !u!23 &2041303825
 MeshRenderer:
   m_ObjectHideFlags: 0

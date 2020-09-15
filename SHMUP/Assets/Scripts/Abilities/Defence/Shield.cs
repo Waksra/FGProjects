@@ -6,17 +6,18 @@ namespace Abilities.Defence
     {
         public void Activate()
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(true);
         }
 
         public void Deactivate()
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(false);
         }
 
         public void Equip(Transform slot, GameObject owner)
         {
-            throw new System.NotImplementedException();
+            gameObject.SetActive(false);
+            transform.parent = slot;
         }
     }
 }

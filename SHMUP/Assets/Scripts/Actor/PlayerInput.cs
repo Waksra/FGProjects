@@ -37,6 +37,9 @@ namespace Actor
 
             _controls.Play.SwapWeapon.performed += OnSwapWeaponPerformed;
 
+            _controls.Play.Shield.performed += OnShieldPerformed;
+            _controls.Play.Shield.canceled += OnShieldCanceled;
+
             _controls.Enable();
         }
 
@@ -55,6 +58,9 @@ namespace Actor
             _controls.Play.Fire.canceled -= OnFireCanceled;
 
             _controls.Play.SwapWeapon.performed -= OnSwapWeaponPerformed;
+
+            _controls.Play.Shield.performed -= OnShieldPerformed;
+            _controls.Play.Shield.canceled -= OnShieldCanceled;
 
             _controls.Disable();
         }
@@ -96,12 +102,20 @@ namespace Actor
 
         private void OnSwapWeaponPerformed(InputAction.CallbackContext context)
         {
-            Debug.Log(context.ReadValue<float>());
-            if(context.ReadValue<float>() > 0)
+            if (context.ReadValue<float>() > 0)
                 _abilityManager.NextWeapon();
             else
                 _abilityManager.PreviousWeapon();
-            
         }
-    }
+
+        private void OnShieldPerformed(InputAction.CallbackContext context)
+        {
+            _abilityManager.StartShield();
+        }
+
+        private void OnShieldCanceled(InputAction.CallbackContext context)
+        {
+            _abilityManager.StopShield();
+        }
+}
 }

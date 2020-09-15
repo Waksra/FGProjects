@@ -1,5 +1,4 @@
-﻿
-using Abilities;
+﻿using Abilities;
 using UnityEngine;
 
 namespace Actor
@@ -13,6 +12,7 @@ namespace Actor
         private void Start()
         {
             weapons.Initialize(gameObject);
+            shield.Initialize(gameObject);
         }
 
         public void StartFireWeapon()

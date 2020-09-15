@@ -14,12 +14,12 @@ TagManager:
   - 
   - 
   - Player
+  - Player Shield
+  - Player Projectiles
+  - Enemy
+  - Enemy Shield
+  - Enemy Projectiles
   - Environment
-  - 
-  - 
-  - 
-  - 
-  - 
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Environment
+    uniqueID: 65590011
+    locked: 0
+  - name: Actors
+    uniqueID: 2970514419
+    locked: 0
+  - name: Effects
+    uniqueID: 3744601279
     locked: 0

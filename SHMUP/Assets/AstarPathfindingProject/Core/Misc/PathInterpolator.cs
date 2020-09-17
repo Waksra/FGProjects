@@ -190,6 +190,25 @@ namespace Pathfinding.Util {
 			// Move to the intersection point
 			MoveToSegment(segmentIndex, factor);
 		}
+		
+		public void MoveToCircleIntersection2D (Vector2 circleCenter, float radius) {
+			if (path == null) return;
+
+			// Move forwards as long as we are getting closer to circleCenter3D
+			while (segmentIndex < path.Count - 2 && VectorMath.ClosestPointOnLineFactor(path[segmentIndex], path[segmentIndex+1], circleCenter) > 1) {
+				NextSegment();
+			}
+
+			// Move forwards as long as the current segment endpoint is within the circle
+			while (segmentIndex < path.Count - 2 && ((Vector2)path[segmentIndex+1] - circleCenter).sqrMagnitude <= radius*radius) {
+				NextSegment();
+			}
+
+			// Calculate the intersection with the circle. This involves some math.
+			var factor = VectorMath.LineCircleIntersectionFactor(circleCenter, path[segmentIndex], path[segmentIndex+1], radius);
+			// Move to the intersection point
+			MoveToSegment(segmentIndex, factor);
+		}
 
 		protected virtual void PrevSegment () {
 			segmentIndex--;

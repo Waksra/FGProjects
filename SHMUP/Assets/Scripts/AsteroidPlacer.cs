@@ -6,18 +6,22 @@ public class AsteroidPlacer : MonoBehaviour
     public float threshold;
     public float scale;
     public float step;
-    public float range;
+    public float area = 100;
+    public float offsetRange = 10000;
     
     public GameObject[] asteroidPrefabs;
 
     private void Awake()
     {
+        float range = Mathf.Sqrt(area) / 2;
+        float offset = Random.Range(range, offsetRange);
+        
         for (float x = -range; x <= range; x += step)
         {
             for (float y = -range; y <= range; y += step)
             {
-                float perlinX = (x / range * scale) + range;
-                float perlinY = (y / range * scale) + range;
+                float perlinX = (x / range * scale) + offset;
+                float perlinY = (y / range * scale) + offset;
 
                 float value = Mathf.PerlinNoise(perlinX, perlinY);
 

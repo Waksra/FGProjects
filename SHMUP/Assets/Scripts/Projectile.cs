@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    public float initialVelocity;
-    public float lifetime;
+    [Range(0, 5)] public float damageDealt = 1;
+    public float initialVelocity = 10;
+    public float lifetime = 2;
 
     private Transform _transform;
     private Rigidbody2D _body;
@@ -28,6 +30,16 @@ public class Projectile : MonoBehaviour
     {
         yield return new WaitForSeconds(lifetime);
         
+        gameObject.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Damageable damageable;
+        other.TryGetComponent(out damageable);
+        
+        damageable?.TakeDamage(damageDealt);
+        StopAllCoroutines();
         gameObject.SetActive(false);
     }
 }

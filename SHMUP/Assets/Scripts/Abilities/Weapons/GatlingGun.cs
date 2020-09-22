@@ -48,6 +48,7 @@ namespace Abilities.Weapons
         {
             _transform.parent = slot;
             _transform.localPosition = Vector3.zero;
+            _transform.localRotation = Quaternion.identity;
             if (true)
             {
                 Rigidbody2D rb = owner.GetComponent<Rigidbody2D>();

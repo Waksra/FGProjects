@@ -9,28 +9,27 @@ namespace Actor
     {
         public float repathRate = 0.5f;
         public float nextWaypointDistance = 3f;
-        public float rotationSlowdownAngle = 10f;
         
-        [NonSerialized] public bool followPath;
         [NonSerialized] public Vector2 targetPosition;
 
         private int _currentWaypoint;
         private float _lastRepath;
-        private bool isEndOfPath;
+        private bool _isEndOfPath;
 
         private Transform _transform;
         private Seeker _seeker;
         private MovementController _movementController;
-        private RotationController _rotationController;
 
         private Path _path;
+
+        public Vector2 CurrentWaypointPosition 
+            => _path != null ? (Vector2)_path.vectorPath[_currentWaypoint] : targetPosition;
 
         private void Awake()
         {
             _transform = transform;
             _seeker = GetComponent<Seeker>();
             _movementController = GetComponent<MovementController>();
-            _rotationController = GetComponent<RotationController>();
         }
 
         private void OnEnable()
@@ -58,10 +57,8 @@ namespace Actor
             }
         }
 
-        private void Update()
+        public void FollowPath()
         {
-            if (!followPath) return;
-
             if (Time.time > _lastRepath + repathRate && _seeker.IsDone())
             {
                 _lastRepath = Time.time;
@@ -70,7 +67,7 @@ namespace Actor
 
             if (_path == null) return;
 
-            isEndOfPath = false;
+            _isEndOfPath = false;
 
             float distanceToWaypoint;
 
@@ -83,7 +80,7 @@ namespace Actor
                         _currentWaypoint++;
                     else
                     {
-                        isEndOfPath = true;
+                        _isEndOfPath = true;
                         break;
                     }
                 }
@@ -92,14 +89,10 @@ namespace Actor
             }
 
             Vector2 direction = (_path.vectorPath[_currentWaypoint] - _transform.position).normalized;
+            direction = _transform.InverseTransformDirection(direction);
             
-            float speedFactor = isEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
+            float speedFactor = _isEndOfPath ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
             _movementController.moveVector = direction * speedFactor;
-
-            float angle = Vector2.SignedAngle(_transform.up, direction);
-            float angleSpeedFactor =
-                angle <= rotationSlowdownAngle ? Mathf.Sqrt(distanceToWaypoint / nextWaypointDistance) : 1f;
-            _rotationController.RotateAmount =  (angle != 0 ? Mathf.Sign(angle) : 0) * angleSpeedFactor;
         }
     }
 }

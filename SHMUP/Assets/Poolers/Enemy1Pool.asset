@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6ab528976c44d0f974c39985e8332e0, type: 3}
-  m_Name: KineticRound
+  m_Script: {fileID: 11500000, guid: 59aad2b7ac284de7a5b2aad0521a65a4, type: 3}
+  m_Name: Enemy1Pool
   m_EditorClassIdentifier: 
-  initialAmount: 30
-  amountCreatedIfEmpty: 10
-  projectileToPool: {fileID: 5479552976569483712, guid: e76efcd1981b6bc4d85cb84fae482401, type: 3}
+  initialAmount: 15
+  amountCreatedIfEmpty: 5
+  objectToPool: {fileID: 7980895018284458140, guid: 8cd70c2d76d2a14409c1f60481fef77d, type: 3}

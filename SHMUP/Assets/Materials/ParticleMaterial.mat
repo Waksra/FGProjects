@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ParticleMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 1a313c0bcfd1f1c46bed10fb4a244dba, type: 3}
-  m_ShaderKeywords: 
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -45,5 +45,7 @@ Material:
     - Color_7B7BD328: {r: 4, g: 4, b: 4, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _MainOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTile: {r: 1, g: 1, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

@@ -1,38 +1,56 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace ObjectPooler
 {
-        public abstract class ObjectPooler : ScriptableObject
+    [CreateAssetMenu(fileName = "NewObjectPooler", menuName = "Pooler/Object Pooler", order = 0)]
+    public class ObjectPooler : PoolerBase
+    {
+        public int initialAmount = 15;
+        public int amountCreatedIfEmpty = 5;
+        public GameObject objectToPool;
+
+        private List<GameObject> _pooledObjects;
+
+        protected override void Setup()
         {
-                protected Transform pool;
-                private bool _hasPool;
-        
-                protected static Transform poolParent;
-                private bool _hasPoolParent;
-
-                public virtual void Initialize()
-                {
-                        if(_hasPool)
-                                return;
-
-                        if (!_hasPoolParent)
-                        {
-                                GameObject parentObj = new GameObject("Object Pools");
-                                poolParent = parentObj.transform;
-                                _hasPoolParent = true;
-                                parentObj.AddComponent<OnDestroyCallback>().OnDestroyEvent +=
-                                        () => _hasPoolParent = false;
-                        }
-
-                        GameObject obj = new GameObject($"{name} Pool");
-                        pool = obj.transform;
-                        pool.parent = poolParent;
-                        _hasPool = true;
-                        obj.AddComponent<OnDestroyCallback>().OnDestroyEvent += 
-                                () => _hasPool = false;
-                        Setup();
-                }
-
-                protected abstract void Setup();
+            _pooledObjects = new List<GameObject>(initialAmount);
+            CreateObjects(initialAmount);
         }
+
+        public GameObject RetrieveObject()
+        {
+            if(!_hasPool)
+                Initialize();
+            
+            if (_pooledObjects.Count == 0)
+            {
+                CreateObjects(amountCreatedIfEmpty);
+                Debug.Log($"{name} pool ran out and created new objects.");
+            }
+
+            GameObject obj = _pooledObjects[_pooledObjects.Count - 1];
+            _pooledObjects.Remove(obj);
+
+            return obj;
+        }
+
+        private void CreateObjects(int amount)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                GameObject obj = Instantiate(objectToPool, pool);
+                obj.gameObject.SetActive(false);
+                obj.gameObject.AddComponent<OnDisableCallback>().OnDisableEvent +=
+                    () => RePoolObject(obj);
+                _pooledObjects.Add(obj);
+            }
+        }
+        
+        private void RePoolObject(GameObject obj)
+        {
+            _pooledObjects.Add(obj);
+        }
+    }
 }

@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Actor
 {
     public class RotationController : MonoBehaviour
     {
-        [Range(0, 500)] public float rotationSpeed = 200;
-        [Range(0, 500)] public float rotationAcceleration = 200;
+        [Tooltip("Degrees per second")][Range(0, 720)] public float rotationSpeed = 360;
+        [Tooltip("Degrees per second per second")][Range(0, 1080)] public float rotationAcceleration = 720;
+
         public float RotateAmount
         {
             set => _desiredAngularVelocity = value * rotationSpeed;

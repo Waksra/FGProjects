@@ -59,6 +59,7 @@ namespace Actor
             {
                 _abilities[_currentAbilityCount] = ability;
                 _currentAbilityCount++;
+                NextAbility();
             }
         }
 

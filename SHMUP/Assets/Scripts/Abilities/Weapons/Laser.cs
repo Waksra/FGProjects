@@ -6,6 +6,7 @@ namespace Abilities.Weapons
     [RequireComponent(typeof(LineRenderer))]
     public class Laser : MonoBehaviour, IAbility
     {
+        public float damagePerSecond = 10f;
         public float laserLength = 4;
         public float laserHitWidth = 0.3f;
         public float initialFiringDelay;
@@ -49,6 +50,7 @@ namespace Abilities.Weapons
         {
             _transform.parent = slot;
             _transform.localPosition = Vector3.zero;
+            _transform.localRotation = Quaternion.identity;
         }
 
         private IEnumerator FiringCoroutine()
@@ -57,6 +59,8 @@ namespace Abilities.Weapons
             
             _lineRenderer.positionCount = lineResolution;
             Transform particleTransform = _particleSystem.transform;
+            int colliderID = -1;
+            Damageable damageable = null;
             
             while (_isFiring)
             {
@@ -69,6 +73,13 @@ namespace Abilities.Weapons
                     endPoint = hit.point;
                     particleTransform.position = endPoint;
                     if(!_particleSystem.isPlaying) _particleSystem.Play(true);
+                    
+                    if (colliderID != hit.collider.GetInstanceID())
+                    {
+                        colliderID = hit.collider.GetInstanceID();
+                        hit.collider.TryGetComponent(out damageable);
+                    }
+                    damageable?.TakeDamage(damagePerSecond * Time.deltaTime);
                 }
                 else
                 {

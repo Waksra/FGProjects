@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6ab528976c44d0f974c39985e8332e0, type: 3}
   m_Name: KineticRound
   m_EditorClassIdentifier: 
-  initialAmount: 50
-  amountCreatedIfEmpty: 15
+  initialAmount: 30
+  amountCreatedIfEmpty: 10
   projectileToPool: {fileID: 5479552976569483712, guid: e76efcd1981b6bc4d85cb84fae482401, type: 3}

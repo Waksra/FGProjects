@@ -11,6 +11,17 @@ struct  User
 };
 User users[USER_MAX];
 
+void broadcastMessage(const char* msg)
+{
+    for (int i = 0; i < USER_MAX; i++)
+    {
+        if (!users[i].active)
+            continue;
+
+        send(users[i].sock, msg, strlen(msg), 0);
+    }
+}
+
 DWORD recvWorker(void* ptr)
 {
     User* user = static_cast<User*>(ptr);
@@ -23,9 +34,18 @@ DWORD recvWorker(void* ptr)
         {
             engPrint("User left");
             user->active = false;
+            broadcastMessage("User left");
             return 0;
         }
         engPrint("%.*s", recvSize, buffer);
+         
+        for (int i = 0; i < USER_MAX; i++)
+        {
+            if (!users[i].active)
+                continue;
+
+            send(users[i].sock, buffer, recvSize, 0);
+        }
     }
 }
 
@@ -66,6 +86,15 @@ DWORD acceptWorker(void* ptr)
             acceptAddr.sin_addr.s_impno,
             ntohs(acceptAddr.sin_port)
         );
+
+        const char* msg = "User joined.";
+        for (int i = 0; i < USER_MAX; i++)
+        {
+            if (!users[i].active || i == user_idx)
+                continue;
+
+            send(users[i].sock, msg, strlen(msg), 0);
+        }
 
         CreateThread(
             nullptr,
